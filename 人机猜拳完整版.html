@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>人机猜拳小游戏</title>
+</head>
+<body>
+
+    <script>
+
+        //用户输入用户名  选择对战对手
+        var wanjiaName; //玩家名称
+        var diannao = ["刘备","孙权","曹操"]; //对手名称的数组
+        var diannaoName; //对手名称
+
+        var wanjiaFen = 0; //玩家的分数
+        var diannaoFen = 0; //电脑的分数
+
+        var count = 0;//对战的次数
+
+        function xuanze() {
+            wanjiaName = prompt("请输入您的名字");
+            var num = parseInt( prompt("请选择对手！1、刘备 2、孙权 3、曹操") );
+            diannaoName = diannao[num-1];//下标从0开始 选择1 表示选择数组第一个
+            console.log( wanjiaName +"vs" + diannaoName +"对战开始");
+        }
+
+        function Cai() {
+            do{
+                //---------此处用来接收用户的选择
+                var ren = parseInt( prompt("请选择出拳：1. 石头 2.剪刀 3.布"));
+                while (isNaN(ren) || ren < 1 || ren > 3) {
+                    console.log("请重输：");
+                    ren = parseInt( prompt("请选择出拳：1. 石头 2.剪刀 3.布"));
+                }
+                //判断用户出拳
+                if (ren == 1) {
+                    console.log(wanjiaName+"出拳为：石头");
+                }else if(ren == 2){
+                    console.log(wanjiaName+"出拳为：剪刀");
+                }else{
+                    console.log(wanjiaName+"出拳为：布");
+                }
+                var jiqi = Math.floor(Math.random() * 3 + 1);
+                if (jiqi == 1) {
+                    console.log(diannaoName+"出拳为：石头");
+                }else if(jiqi == 2){
+                    console.log(diannaoName+"出拳为：剪刀");
+                }else{
+                    console.log(diannaoName+"出拳为：布");
+                }
+                //调用比较方法 进行出拳比较
+                bijiao(jiqi,ren)
+                //询问玩家是否继续
+                var shifou = prompt("还继续玩儿吗？y/n");
+            }while(shifou == "y");
+
+            //玩家选择退出游戏 显示计分板
+            showFenshu();
+        }
+        
+        function bijiao(jiqi,ren) {
+            // jiqi 1 ren 2  jiqi赢
+            // jiqi 2 ren 3  jiqi赢
+            // jiqi 3 ren 1  jiqi赢
+            if(jiqi - ren == -1 || jiqi - ren ==2){
+                console.log("电脑获胜");
+                diannaoFen++;
+                //jiqi 1 ren 3 ren赢
+                //jiqi 2 ren 1 ren赢
+                //jiqi 3 ren 2 ren赢
+            }else if(jiqi - ren == 1 || jiqi - ren == -2){
+                console.log("玩家获胜");
+                wanjiaFen++;
+            }else{
+                console.log("平局");
+            }
+            count++;
+        }
+
+        ///显示对战的结果
+        function showFenshu() {
+            console.log("------------------计分板-------------------");
+            console.log(wanjiaName + "vs" + diannaoName);
+            console.log("对战次数"+count);
+            console.log("姓名\t得分");
+            console.log(wanjiaName + "\t" + wanjiaFen);
+            console.log(diannaoName + "\t" + diannaoFen);
+
+            if(wanjiaFen > diannaoFen){
+                console.log("你厉害啊 赢了");
+            }else if(wanjiaFen < diannaoFen){
+                console.log("真菜 你输了");
+            }else{
+                console.log("棋逢对手 下次再战");
+            }
+        }
+        
+        xuanze();//调用选择方法
+        Cai();//开始猜
+
+    </script>
+
+</body>
+</html>
